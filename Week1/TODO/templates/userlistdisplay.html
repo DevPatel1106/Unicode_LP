@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Lists</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+	<script src="index.js"></script>
+    <h1>My Lists:</h1>
+    <!-- {{user_lists}} -->
+    <div class="main">
+ 
+      <!-- {% for data in user_lists %}.
+   
+      {{ data.title }}<br/>
+      <hr/>
+   
+      {% endfor %} -->
+
+      <table border="1">
+        {% for x in user_lists %}
+          <tr>
+          <td>{{ x.title }}</td>
+          <td><a href="/ToDo/listdelete/{{ x.title }}">delete</a></td>
+          </tr>
+        {% endfor %}
+        </table>
+   
+  </div>
+    <a href="{% url 'listupdate' %}">Update My Lists</a>
+    <a href="{% url 'listadd' %}">Add a new List</a>
+    <a href="{% url 'mylists' %}">My Lists</a>
+
+  </body>
+</html>

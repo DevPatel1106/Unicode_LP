@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update To Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <script src="index.js"></script>
+    <h1>Enter Title to update To Do List</h1>
+    <!-- <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Submit">
+    </form> -->
+
+    <!-- {% if listtoupdateitems %} -->
+    <div class="main">
+        <h1> list items</h1>
+        {% for data in listtoupdateitems %}
+
+        {{ data }}<br />
+        <hr />
+
+        {% endfor %}
+        <!-- {% endif %} -->
+
+        {% if form2 %}
+        <h1>Change list items</h1>
+        <form method="GET" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form2 }}
+            <input type="submit" value="Submit">
+        </form>
+        {% endif %}
+        <a href="{% url 'listupdate' %}">Update My Lists</a>
+        <a href="{% url 'listadd' %}">Add a new List</a>
+
+        <a href="{% url 'mylists' %}">My Lists</a>
+    </div>
+</body>
+
+</html>
