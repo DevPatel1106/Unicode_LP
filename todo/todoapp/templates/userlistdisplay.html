@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Lists</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <script src="index.js"></script>
+
+  <div>
+    <h1>My Profile:</h1>
+    {% for values in user %}
+    <p>
+    <h2>Username: {{ values.username }}</h2>
+    <h2>Profile Picture:<img src="{{values.profilepic.url}}" width="500" height="250" /></h2>
+    </p>
+    {% endfor %}
+  </div>
+  <!-- {{user_lists}} -->
+
+  <div class="main">
+    <h1>My Lists:</h1>
+    <!-- {% for data in user_lists %}.
+      {{ data.title }}<br/>
+      <hr/>  
+      {% endfor %} -->
+    <table border="1">
+      {% for x in user_lists %}
+      <tr>
+        <td>{{ x.title }}</td>
+        <td><a href="/todoapp/listdelete/{{ x.title }}">delete</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+
+  </div>
+  <div>
+    <a href="{% url 'listupdate' %}">Update My Lists</a>
+    <a href="{% url 'listadd' %}">Add a new List</a>
+    <a href="{% url 'mylists' %}">My Lists</a>
+    <a href="/accounts/logout">logout</a>
+  </div>
+
+
+</body>
+
+</html>
