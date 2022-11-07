@@ -14,7 +14,7 @@ class ToDoListItemAdmin(admin.ModelAdmin):
     active.boolean = True
 
 class ToDoListAdmin(admin.ModelAdmin):
-    list_display = ( 'title','added_by_user','Main_Img')
+    list_display = ( 'title','added_by_user','listagent','Main_Img')
   
     def active(self, obj):
         return obj.is_active == 1

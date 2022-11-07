@@ -9,4 +9,7 @@ urlpatterns = [
     path('register/',views.customregistration, name='registeration'),
     path('login/', views.Customlogin, name='login'),
     path('logout/', views.Customlogout, name='logout'),
+    path('register/admin/', views.adminsignin, name='admin_registeration'),
+    path('register/agent/', views.agentsignin, name='agent_registeration'),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

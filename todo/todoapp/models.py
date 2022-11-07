@@ -5,12 +5,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from accounts.models import CustomUser
 from django.utils.safestring import mark_safe
+# from accounts.models import admin,agent
 # Create your models here.
 
 class ToDoList(models.Model):
     title = models.CharField(max_length=50, primary_key=True, unique=True)
     added_by_user = models.ForeignKey(CustomUser, default='1', on_delete=models.CASCADE)
     Main_Img = models.ImageField(upload_to='images',default="")
+    # listadmin = models.ForeignKey(admin, on_delete=models.CASCADE, related_name='listadmin',blank=True, null=True)
+    CompletionStatus = models.BooleanField(verbose_name = 'Completion Status', default=False)
+    listagent = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='listagent',blank=True, null=True)
+    
     def __str__(self):
         return self.title
     

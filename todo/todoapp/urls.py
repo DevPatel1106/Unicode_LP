@@ -11,4 +11,5 @@ urlpatterns = [
     path('listadd/', views.listadd, name='listadd'),
     # path('listdelete/', views.listdelete, name='listdelete'),
     path('listdelete/<slug:title>', views.listdelete, name='listdelete'),
+     path('listupdcomplstat/<slug:title>', views.listupdcomplstat, name='listupdcomplstat'),
 ]

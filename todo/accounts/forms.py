@@ -5,7 +5,7 @@ from .models import CustomUser
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import CustomUser
+# from .models import CustomUser,admin,agent
 
 class CustomUserCreationForm(UserCreationForm):
     # firstname = forms.CharField( max_length = 50)
@@ -21,6 +21,14 @@ class CustomUserCreationForm(UserCreationForm):
         # fields = '__all__'
         # fields = ["username", "email","firstname","lastname","phonenumber","profilepic"]
 
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user
+
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
@@ -30,3 +38,31 @@ class CustomUserChangeForm(UserChangeForm):
 class LogInForm (forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
+
+'''class AdminSignInForm(UserCreationForm):
+    
+    class Meta:
+        model = CustomUser
+        fields = ["username", "email","phonenumber","profilepic","first_name","last_name"]
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user    
+
+class AgentSignInForm(UserCreationForm):
+    
+    class Meta:
+        model = CustomUser
+        fields = ["username", "email","phonenumber","profilepic","first_name","last_name"]
+
+    def save(self, commit=True):
+        # Save the provided password in hashed format
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data["password1"])
+        if commit:
+            user.save()
+        return user'''

@@ -7,7 +7,7 @@ from django.views.generic.edit import CreateView
 from .models import CustomUser
 from .managers import CustomUserManager
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 # class customregistration(CreateView):
 #     model = CustomUser
 #     form_class = CustomUserCreationForm
@@ -36,10 +36,10 @@ def customregistration(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
             user.save()
-            login(request,CustomUser)
+            login(request,user)
             messages.success(request, "Registration successful." )
             return redirect("/todoapp/mylists")
-        messages.error(request, "Unsuccessful registration. Invalid information.")
+        #messages.error(request, "Unsuccessful registration. Invalid information.")
     form = CustomUserCreationForm()
     context["form"]=form
     return render (request,"CustomUserCreationForm.html",context )
@@ -63,42 +63,127 @@ def Customlogin(request):
     context={"LogInForm":form}
     return render (request,"Customloginform.html",context )
 
-
+@login_required
 def Customlogout(request):
     useremail = request.user.email
     if useremail != None:
         logout(request)
         return redirect("/accounts/login")    
 
-# def registration(request):
-#     if request.method == "POST":
-#         fm = UserRegistrationForm(request.POST)
-#         if fm.is_valid():
-#             user = fm.save()
-#             login(request,user)
-#             messages.success(request, "Registration successful." )
-#             # return redirect("")
-#         messages.error(request, "Unsuccessful registration. Invalid information.")
-    
-#     fm = UserRegistrationForm()
-#     context={"register_form":fm}
-#     return render (request,"registerform.html",context )
-# def customlogin():
-#     if request.method =="POST":
-#         form =AuthenticationForm(request,request.POST)
-#         if form.is_valid():
-#             username = form.cleaned_data.get('username')
-#             password = form.cleaned_data.get('password')
-#             user = authenticate(username=username, password=password)
-#             if user is not None:
-#                 login(request,user)
-#                 messages.info(request, f"You are now logged in as {username}.")
-#                 return redirect("mylists")
-#             else:
-#                 messages.error(request,"Invalid username or PAssword") 
-#         else:
-#             messages.error(request,"Invalid username or Password") 
-    
-#     form = AuthenticationForm()
-#     context={"login_form":form}
-#     return render (request,"loginform.html",context )
+def adminsignin(request):
+    context={}
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST,request.FILES)
+        if form.is_valid():
+            # form.save()
+            # obj = CustomUser.objects.create_user(
+            #     email = form.cleaned_data.get("email"),
+            #     password = form.cleaned_data.get("password"))
+            # obj.save()
+            # user = form.save(commit=False)            
+            # user.save()
+            # email = form.cleaned_data['email']
+            # password = form.cleaned_data['password1']
+            # user.save()
+            user = form.save(commit=False)
+            user.is_admin = True
+            # user.useracc = request.user
+            # user.is_admin=True
+            print(user.username)
+            user.save()
+            login(request,user)
+            messages.success(request, "Registration successful." )
+            return redirect("/todoapp/mylists")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = CustomUserCreationForm()
+    context["form"]=form
+    return render (request,"CustomAdminCreationForm.html",context )
+
+def agentsignin(request):
+    context={}
+    if request.method == "POST":
+        form = CustomUserCreationForm(request.POST,request.FILES)
+        if form.is_valid():
+            # form.save()
+            # obj = CustomUser.objects.create_user(
+            #     email = form.cleaned_data.get("email"),
+            #     password = form.cleaned_data.get("password"))
+            # obj.save()
+            # user = form.save()
+            user = form.save(commit=False)
+            # user.useracc = request.user
+            user.is_agent=True
+            user.save()
+            login(request,user)
+            # user = form.save(commit=False)
+            # email = form.cleaned_data['email']
+            # password = form.cleaned_data['password1']
+            # user.is_agent = True
+            # user.save()
+            login(request,user)
+            messages.success(request, "Registration successful." )
+            return redirect("/todoapp/mylists")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = CustomUserCreationForm()
+    context["form"]=form
+    return render (request,"CustomAgentCreationForm.html",context )    
+
+
+'''def adminsignin(request):
+    context={}
+    if request.method == "POST":
+        form = AdminSignInForm(request.POST,request.FILES)
+        if form.is_valid():
+            # form.save()
+            # obj = CustomUser.objects.create_user(
+            #     email = form.cleaned_data.get("email"),
+            #     password = form.cleaned_data.get("password"))
+            # obj.save()
+            # user = form.save(commit=False)            
+            # user.save()
+            # email = form.cleaned_data['email']
+            # password = form.cleaned_data['password1']
+            # user.is_admin = True
+            # user.save()
+            user = form.save(commit=False)
+            # user.useracc = request.user
+            # user.is_admin=True
+            print(user.username)
+            user.save()
+            login(request,user)
+            messages.success(request, "Registration successful." )
+            return redirect("/todoapp/mylists")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = AdminSignInForm()
+    context["form"]=form
+    return render (request,"CustomAdminCreationForm.html",context )
+
+def agentsignin(request):
+    context={}
+    if request.method == "POST":
+        form = AgentSignInForm(request.POST,request.FILES)
+        if form.is_valid():
+            # form.save()
+            # obj = CustomUser.objects.create_user(
+            #     email = form.cleaned_data.get("email"),
+            #     password = form.cleaned_data.get("password"))
+            # obj.save()
+            # user = form.save()
+            user = form.save(commit=False)
+            user.useracc = request.user
+            # user.is_agent=True
+            user.save()
+            login(request,user)
+            # user = form.save(commit=False)
+            # email = form.cleaned_data['email']
+            # password = form.cleaned_data['password1']
+            # user.is_agent = True
+            # user.save()
+            login(request,user)
+            messages.success(request, "Registration successful." )
+            return redirect("/todoapp/mylists")
+        messages.error(request, "Unsuccessful registration. Invalid information.")
+    form = AgentSignInForm()
+    context["form"]=form
+    return render (request,"CustomAgentCreationForm.html",context )    '''
+

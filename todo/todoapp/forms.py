@@ -23,7 +23,7 @@ class createlistform(forms.ModelForm):
 
     class Meta:
         model = ToDoList
-        fields = ["title","Main_Img"]
+        fields = ["title","Main_Img","listagent"]
 
 
 class listupdateform(forms.ModelForm):

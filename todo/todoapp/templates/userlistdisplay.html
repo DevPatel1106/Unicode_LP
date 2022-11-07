@@ -17,6 +17,8 @@
     {% for values in user %}
     <p>
     <h2>Username: {{ values.username }}</h2>
+    <h2>is_admin: {{ values.is_admin}}</h2>
+    <h2>is_agent: {{ values.is_agent}}</h2>
     <h2>Profile Picture:<img src="{{values.profilepic.url}}" width="500" height="250" /></h2>
     </p>
     {% endfor %}
@@ -33,8 +35,19 @@
       {% for x in user_lists %}
       <tr>
         <td>{{ x.title }}</td>
-        <td><a href="/todoapp/listdelete/{{ x.title }}">delete</a></td>
+        <td><a href="/todoapp/listdelete/{{ x.title }}">delete</a></td>  
+        <!-- <td><a href="/todoapp/listupdcomplstat/{{ x.title }}">CompletionStatus {{ x.CompletionStatus }}</a></td> -->
+        <td>
+          <a href="/todoapp/listupdcomplstat/{{ x.title }}">
+            <button type="submit" class="btn btn-primary">CompletionStatus {{ x.CompletionStatus }}</button>
+          </a>
+        </td>
+
       </tr>
+      <!-- <tr>
+        <td>{{ x.CompletionStatus }}</td>
+        <td><a href="/todoapp/listupdcomplstat/{{ x.title }}">CompletionStatus</a></td>
+      </tr> -->
       {% endfor %}
     </table>
 
@@ -50,3 +63,4 @@
 </body>
 
 </html>
+
